@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const tweetSchema = mongoose.Schema({
   tweet: String,
+  date: Date,
   tweeter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

@@ -24,14 +24,17 @@
     "_model": "Tweet",
     "one": {
       "tweet": "Halloween's no different than any other day of the year when I steal candy from strangers' houses and dress up like a lazy zombie.",
+      "date": "2017-12-30T15:17:12.202Z",
       "tweeter": "->users.homer"
     },
     "two": {
       "tweet": "Sorry I've been off Twitter, I've been hibernating since February but I set my alarm to go off if candy was near by.",
+      "date": "2017-12-29T15:17:12.202Z",
       "tweeter": "->users.homer"
     },
     "three": {
       "tweet": "have no fear!  The Bart-Man is still here, and still reading your tweets. Hit me up! (I still have 2 weeks of freedom b4 school starts back)",
+      "date": "2017-12-31T15:17:12.202Z",
       "tweeter": "->users.bart"
     }
   },

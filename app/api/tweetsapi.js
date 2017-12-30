@@ -13,6 +13,12 @@ exports.find = {
     Tweet.find({}).populate('tweeter')
         .exec()
         .then(tweets => {
+          tweets.sort(function (a, b) {
+            a = new Date(a.date);
+            b = new Date(b.date);
+            return a > b ? -1 : a < b ? 1 : 0;
+          });
+
           reply(tweets);
         })
         .catch(err => {
@@ -49,6 +55,7 @@ exports.create = {
   handler: function (request, reply) {
     const tweet = new Tweet(request.payload);
     tweet.tweeter = Utils.getUserIdFromRequest(request);
+    tweet.date = new Date();
     tweet
         .save()
         .then(newTweet => {
