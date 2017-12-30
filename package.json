@@ -1,0 +1,33 @@
+{
+  "name": "my-tweet-api",
+  "version": "1.0.0",
+  "description": "An API for MyTweet clients to access",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "boom": "^3.2.2",
+    "eslint": "^4.14.0",
+    "handlebars": "^4.0.5",
+    "hapi": "^14.1.0",
+    "hapi-auth-cookie": "^6.1.1",
+    "hapi-auth-jwt2": "^7.0.1",
+    "hapi-cors-headers": "^1.0.0",
+    "inert": "^4.0.1",
+    "joi": "^9.0.4",
+    "jsonwebtoken": "^7.1.9",
+    "lodash": "^4.15.0",
+    "mongoose": "^4.5.8",
+    "mongoose-seeder": "^1.2.1",
+    "vision": "^4.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "sync-request": "^3.0.1"
+  }
+}

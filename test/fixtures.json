@@ -1,0 +1,43 @@
+{
+  "tweetService": "http://localhost:4000",
+  "users": [
+    {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret"
+    }
+  ],
+  "tweets": [
+    {
+      "tweet": "Halloween's no different than any other day of the year when I steal candy from strangers' houses and dress up like a lazy zombie."
+    },
+    {
+      "tweet": "Sorry I've been off Twitter, I've been hibernating since February but I set my alarm to go off if candy was near by."
+    },
+    {
+      "tweet": "have no fear!  The Bart-Man is still here, and still reading your tweets. Hit me up! (I still have 2 weeks of freedom b4 school starts back)"
+    }
+  ],
+  "newTweet": {
+    "tweet": "Test tweet"
+  },
+  "newUser": {
+    "firstName": "Maggie",
+    "lastName": "Simpson",
+    "email": "maggie@simpson.com",
+    "password": "secret"
+  }
+}
