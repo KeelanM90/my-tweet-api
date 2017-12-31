@@ -38,12 +38,23 @@
       "tweeter": "->users.bart"
     }
   },
-  "admins": {
-    "_model": "Admin",
-    "ned": {
-      "name": "Ned Flanders",
-      "email": "ned@flanders.com",
-      "password": "secret"
+  "relationships": {
+    "_model": "Relationship",
+    "one": {
+      "follower": "->users.bart",
+      "followee": "->users.homer"
+    },
+    "two": {
+      "follower": "->users.marge",
+      "followee": "->users.homer"
+    },
+    "three": {
+      "follower": "->users.bart",
+      "followee": "->users.marge"
+    },
+    "four": {
+      "follower": "->users.homer",
+      "followee": "->users.marge"
     }
   }
 }

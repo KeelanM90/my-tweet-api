@@ -1,8 +1,9 @@
 'use strict';
 
 const User = require('../models/user');
+const Relationship = require('../models/relationship');
 const Boom = require('boom');
-const utils = require('./utils.js');
+const Utils = require('./utils.js');
 
 exports.find = {
 
@@ -98,7 +99,7 @@ exports.authenticate = {
 
       console.log(foundUser.email);
       if (foundUser && foundUser.password === user.password) {
-        const token = utils.createToken(foundUser);
+        const token = Utils.createToken(foundUser);
         reply({ success: true, token: token, user: foundUser }).code(201);
       } else {
         reply({ success: false, message: 'Authentication failed. User not found.' }).code(201);
@@ -108,4 +109,70 @@ exports.authenticate = {
     });
   },
 
+};
+
+exports.follow = {
+
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    const relationship = new Relationship;
+    relationship.follower = Utils.getUserIdFromRequest(request);
+    relationship.followee = request.params.id;
+    relationship.save().then(newRelationship => {
+      reply(newRelationship).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error creating User'));
+    });
+  },
+};
+
+exports.unfollow = {
+
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    const relationship = new Relationship;
+    relationship.follower = Utils.getUserIdFromRequest(request);
+    relationship.followee = request.params.id;
+    relationship.save().then(newRelationship => {
+      reply(newRelationship).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error creating User'));
+    });
+  },
+};
+
+exports.findFollowers = {
+
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    Relationship.find({ followee: request.params.id }).populate('follower').exec().then(users => {
+      reply(users);
+    }).catch(err => {
+      reply(Boom.badImplementation('error accessing db'));
+    });
+  },
+};
+
+exports.findFollowing = {
+
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    Relationship.find({ follower: request.params.id }).populate('followee').exec().then(users => {
+      reply(users);
+    }).catch(err => {
+      reply(Boom.badImplementation('error accessing db'));
+    });
+  },
 };
