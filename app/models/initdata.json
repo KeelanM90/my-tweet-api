@@ -24,6 +24,7 @@
     "_model": "Tweet",
     "one": {
       "tweet": "Halloween's no different than any other day of the year when I steal candy from strangers' houses and dress up like a lazy zombie.",
+      "img": "http://res.cloudinary.com/dsyiy8hbm/image/upload/v1504741444/yj65uogh5trmanhrr8sp.png",
       "date": "2017-12-30T15:17:12.202Z",
       "tweeter": "->users.homer"
     },

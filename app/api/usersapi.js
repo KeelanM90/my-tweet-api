@@ -41,6 +41,30 @@ exports.findOne = {
 
 };
 
+exports.findCurrent = {
+
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    let currentUser = Utils.getUserIdFromRequest(request);
+    User.findOne({ _id: currentUser }).then(user => {
+
+      console.log(user);
+      if (user != null) {
+        console.log('finding user' + currentUser._id);
+        reply(user);
+      }
+
+      reply(Boom.notFound('id not found'));
+    }).catch(err => {
+      reply(Boom.notFound('id not found'));
+    });
+  },
+
+};
+
 exports.create = {
 
   auth: false,

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const tweetSchema = mongoose.Schema({
   tweet: String,
   date: Date,
+  img: String,
   tweeter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
