@@ -10,7 +10,7 @@ module.exports = [
   { method: 'DELETE', path: '/api/users', config: UsersApi.deleteAll },
   { method: 'GET', path: '/api/users/current', config: UsersApi.findCurrent },
 
-  { method: 'POST', path: '/api/follow/{id}', config: UsersApi.follow },
+  { method: 'POST', path: '/api/follow', config: UsersApi.follow },
   { method: 'DELETE', path: '/api/follow/{id}', config: UsersApi.unfollow },
   { method: 'GET', path: '/api/followers/{id}', config: UsersApi.findFollowers },
   { method: 'GET', path: '/api/following/{id}', config: UsersApi.findFollowing },

@@ -18,7 +18,6 @@ mongoose.connection.on('connected', function () {
     const data = require('./initdata.json');
     seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
       console.log('Preloading test data');
-      console.log(dbData);
     }).catch(err => {
       console.log(error);
     });

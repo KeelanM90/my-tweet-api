@@ -36,7 +36,7 @@ exports.findUsersTweets = {
   },
 
   handler: function (request, reply) {
-    Tweet.find({tweeter: request.params.id}).populate('tweeter')
+    Tweet.find({ tweeter: request.params.id }).populate('tweeter')
         .exec()
         .then(tweets => {
           tweets.sort(function (a, b) {
@@ -59,7 +59,7 @@ exports.findOne = {
   },
 
   handler: function (request, reply) {
-    Tweet.findOne({_id: request.params.id})
+    Tweet.findOne({ _id: request.params.id })
         .then(tweet => {
           if (tweet != null) {
             reply(tweet);
@@ -133,7 +133,7 @@ exports.deleteOne = {
   },
 
   handler: function (request, reply) {
-    Tweet.remove({_id: request.params.id})
+    Tweet.remove({ _id: request.params.id })
         .then(tweet => {
           reply(tweet).code(204);
         })

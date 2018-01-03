@@ -32,8 +32,6 @@ exports.findOne = {
       if (user != null) {
         reply(user);
       }
-
-      reply(Boom.notFound('id not found'));
     }).catch(err => {
       reply(Boom.notFound('id not found'));
     });
@@ -50,14 +48,9 @@ exports.findCurrent = {
   handler: function (request, reply) {
     let currentUser = Utils.getUserIdFromRequest(request);
     User.findOne({ _id: currentUser }).then(user => {
-
-      console.log(user);
       if (user != null) {
-        console.log('finding user' + currentUser._id);
         reply(user);
       }
-
-      reply(Boom.notFound('id not found'));
     }).catch(err => {
       reply(Boom.notFound('id not found'));
     });
@@ -142,9 +135,10 @@ exports.follow = {
   },
 
   handler: function (request, reply) {
-    const relationship = new Relationship;
+    const relationship = new Relationship(request.payload);
+    console.log(request.params);
     relationship.follower = Utils.getUserIdFromRequest(request);
-    relationship.followee = request.params.id;
+    console.log(relationship);
     relationship.save().then(newRelationship => {
       reply(newRelationship).code(201);
     }).catch(err => {
@@ -154,19 +148,19 @@ exports.follow = {
 };
 
 exports.unfollow = {
-
+  //TODO
   auth: {
     strategy: 'jwt',
   },
 
   handler: function (request, reply) {
-    const relationship = new Relationship;
-    relationship.follower = Utils.getUserIdFromRequest(request);
-    relationship.followee = request.params.id;
-    relationship.save().then(newRelationship => {
-      reply(newRelationship).code(201);
+    let follower = Utils.getUserIdFromRequest(request);
+    let followee = request.params.id;
+
+    Relationship.remove({ follower: follower, followee: followee }).then(relationship => {
+      reply(Relationship).code(204);
     }).catch(err => {
-      reply(Boom.badImplementation('error creating User'));
+      reply(Boom.notFound('id not found'));
     });
   },
 };
@@ -178,8 +172,11 @@ exports.findFollowers = {
   },
 
   handler: function (request, reply) {
-    Relationship.find({ followee: request.params.id }).populate('follower').exec().then(users => {
-      reply(users);
+    Relationship.find({ followee: request.params.id }).populate('follower').exec().then(relationships => {
+      let followers = relationships.map(relationship => {
+        return relationship.follower;
+      });
+      reply(followers);
     }).catch(err => {
       reply(Boom.badImplementation('error accessing db'));
     });
@@ -193,8 +190,11 @@ exports.findFollowing = {
   },
 
   handler: function (request, reply) {
-    Relationship.find({ follower: request.params.id }).populate('followee').exec().then(users => {
-      reply(users);
+    Relationship.find({ follower: request.params.id }).populate('followee').exec().then(relationships => {
+      let followees = relationships.map(relationship => {
+        return relationship.followee;
+      });
+      reply(followees);
     }).catch(err => {
       reply(Boom.badImplementation('error accessing db'));
     });
