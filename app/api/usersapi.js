@@ -5,6 +5,16 @@ const Relationship = require('../models/relationship');
 const Boom = require('boom');
 const Utils = require('./utils.js');
 
+exports.getAvailability = {
+
+  auth: false,
+
+  handler: function (request, reply) {
+    reply(true);
+  },
+
+};
+
 exports.find = {
 
   auth: {

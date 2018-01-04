@@ -3,6 +3,7 @@ const TweetsApi = require('./app/api/tweetsapi');
 
 module.exports = [
 
+  { method: 'GET', path: '/api/availability', config: UsersApi.getAvailability },
   { method: 'GET', path: '/api/users', config: UsersApi.find },
   { method: 'GET', path: '/api/users/{id}', config: UsersApi.findOne },
   { method: 'POST', path: '/api/users', config: UsersApi.create },
