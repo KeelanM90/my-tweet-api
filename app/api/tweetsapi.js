@@ -3,6 +3,7 @@
 const Tweet = require('../models/tweet');
 const Boom = require('boom');
 const Utils = require('./utils');
+const Relationship = require('../models/relationship');
 const cloudinary = require('cloudinary');
 const env = require('../../.data/.env.json');
 cloudinary.config(env.cloudinary);
@@ -50,6 +51,35 @@ exports.findUsersTweets = {
         .catch(err => {
           reply(Boom.badImplementation('error accessing db'));
         });
+  },
+};
+
+exports.findFollowedTweets = {
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    const follower = Utils.getUserIdFromRequest(request);
+
+    Relationship.find({ follower: follower }).then(relationships => {
+      let followees = relationships.map(relationship => {
+        return relationship.followee;
+      });
+      return Tweet.find({
+        tweeter: { $in: followees, },
+      }).populate('tweeter');
+    }).then(tweets => {
+      tweets.sort(function (a, b) {
+        a = new Date(a.date);
+        b = new Date(b.date);
+        return a > b ? -1 : a < b ? 1 : 0;
+      });
+
+      reply(tweets);
+    }).catch(err => {
+      reply(Boom.badImplementation('error accessing db'));
+    });
   },
 };
 

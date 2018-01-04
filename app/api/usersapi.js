@@ -73,6 +73,24 @@ exports.create = {
 
 };
 
+exports.update = {
+
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    const user = User(request.payload);
+    console.log(user);
+    user.update(user).then(updatedUser => {
+      reply(updatedUser).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error updating User'));
+    });
+  },
+
+};
+
 exports.deleteAll = {
 
   auth: {
@@ -148,7 +166,6 @@ exports.follow = {
 };
 
 exports.unfollow = {
-  //TODO
   auth: {
     strategy: 'jwt',
   },
