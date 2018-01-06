@@ -5,19 +5,19 @@
       "firstName": "Homer",
       "lastName": "Simpson",
       "email": "homer@simpson.com",
-      "password": "secret"
+      "password": "$2a$10$/xhfnToaU7MHl7JNa2./HO60xJrDPRsUU1OyQScBi0rL7CJ/xNd8W"
     },
     "marge": {
       "firstName": "Marge",
       "lastName": "Simpson",
       "email": "marge@simpson.com",
-      "password": "secret"
+      "password": "$2a$10$/xhfnToaU7MHl7JNa2./HO60xJrDPRsUU1OyQScBi0rL7CJ/xNd8W"
     },
     "bart": {
       "firstName": "Bart",
       "lastName": "Simpson",
       "email": "bart@simpson.com",
-      "password": "secret"
+      "password": "$2a$10$/xhfnToaU7MHl7JNa2./HO60xJrDPRsUU1OyQScBi0rL7CJ/xNd8W"
     }
   },
   "tweets": {
