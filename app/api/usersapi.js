@@ -4,6 +4,9 @@ const User = require('../models/user');
 const Relationship = require('../models/relationship');
 const Boom = require('boom');
 const Utils = require('./utils.js');
+const Bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 exports.getAvailability = {
 
@@ -46,7 +49,6 @@ exports.findOne = {
       reply(Boom.notFound('id not found'));
     });
   },
-
 };
 
 exports.findCurrent = {
@@ -74,10 +76,13 @@ exports.create = {
 
   handler: function (request, reply) {
     const user = new User(request.payload);
-    user.save().then(newUser => {
-      reply(newUser).code(201);
-    }).catch(err => {
-      reply(Boom.badImplementation('error creating User'));
+    Bcrypt.hash(user.password, saltRounds, function (err, hash) {
+      user.password = hash;
+      user.save().then(newUser => {
+        reply(newUser).code(201);
+      }).catch(err => {
+        reply(Boom.badImplementation('error creating User'));
+      });
     });
   },
 
@@ -91,14 +96,23 @@ exports.update = {
 
   handler: function (request, reply) {
     const user = User(request.payload);
-    console.log(user);
-    user.update(user).then(updatedUser => {
-      reply(updatedUser).code(201);
-    }).catch(err => {
-      reply(Boom.badImplementation('error updating User'));
+    User.findOne({ email: user.email }).then(oldUser => {
+      Bcrypt.hash(user.password, saltRounds, function (err, hash) {
+        if (user.password != '') {
+          user.password = hash;
+        } else {
+          user.password = oldUser.password;
+        }
+
+        console.log(user);
+        user.update(user).then(updatedUser => {
+          reply(updatedUser).code(201);
+        }).catch(err => {
+          reply(Boom.badImplementation('error updating User'));
+        });
+      });
     });
   },
-
 };
 
 exports.deleteAll = {
@@ -141,16 +155,17 @@ exports.authenticate = {
     const user = request.payload;
     console.log('Authenticating...');
     User.findOne({ email: user.email }).then(foundUser => {
-
-      console.log(foundUser.email);
-      if (foundUser && foundUser.password === user.password) {
-        const token = Utils.createToken(foundUser);
-        reply({ success: true, token: token, user: foundUser }).code(201);
-      } else {
-        reply({ success: false, message: 'Authentication failed. User not found.' }).code(201);
-      }
-    }).catch(err => {
-      reply(Boom.notFound('internal db failure'));
+      Bcrypt.compare(user.password, foundUser.password, function (err, isUser) {
+        console.log(foundUser.email);
+        if (foundUser && foundUser.password === user.password) {
+          const token = Utils.createToken(foundUser);
+          reply({ success: true, token: token, user: foundUser }).code(201);
+        } else {
+          reply({ success: false, message: 'Authentication failed. User not found.' }).code(201);
+        }
+      }).catch(err => {
+        reply(Boom.notFound('internal db failure'));
+      });
     });
   },
 
