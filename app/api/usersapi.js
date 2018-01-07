@@ -157,8 +157,8 @@ exports.authenticate = {
     User.findOne({ email: user.email }).then(foundUser => {
       Bcrypt.compare(user.password, foundUser.password, function (err, isUser) {
         if (isUser) {
-          const token = Utils.createToken(foundUser);
-          reply({ success: true, token: token, user: foundUser }).code(201);
+          const token = Utils.createToken(user);
+          reply({ success: true, token: token, user: user }).code(201);
         } else {
           reply({ success: false, message: 'Authentication failed. User not found.' }).code(201);
         }

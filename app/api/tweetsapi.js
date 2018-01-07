@@ -113,7 +113,7 @@ exports.create = {
     const data = request.payload.image;
     tweet.tweeter = Utils.getUserIdFromRequest(request);
     tweet.date = new Date();
-    if (data != '') {
+    if (data != null) {
       cloudinary.uploader.upload(data).then(result => {
         tweet.img = result.url;
         saveTweet(tweet, reply);
